@@ -1,0 +1,36 @@
+default:
+  host: jeronpdb.ceo1jgvhroop.us-west-2.rds.amazonaws.com
+  port: 5432 
+  adapter: postgresql
+  encoding: utf8
+  database: jeronparaiso 
+  pool: 5
+  username: <%= ENV['APPNAME_DATABASE_USER'] %>
+  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>
+
+development:
+  host: jeronpdb.ceo1jgvhroop.us-west-2.rds.amazonaws.com
+  port: 5432 
+  adapter: postgresql
+  encoding: utf8
+  database: jeronparaiso 
+  pool: 5
+  username: <%= ENV['APPNAME_DATABASE_USER'] %>
+  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>
+
+
+production:
+  host: jeronpdb.ceo1jgvhroop.us-west-2.rds.amazonaws.com
+  port: 5432 
+  adapter: postgresql
+  encoding: utf8
+  database: jeronparaiso 
+  pool: 5
+  username: d20 
+  password: G0ldieAndBear$ 
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  database: db/test.sqlite3
