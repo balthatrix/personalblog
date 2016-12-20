@@ -179,3 +179,36 @@ HSDFS: true
 === puma startup: 2016-12-19 12:29:33 +0000 ===
 [8040] * Starting control server on unix:///tmp/puma-status-1482150573934-8040
 [8040] - Worker 0 (pid: 8046) booted, phase: 0
+=== puma startup: 2016-12-19 18:42:26 +0000 ===
+=== puma startup: 2016-12-19 18:42:26 +0000 ===
+=== puma startup: 2016-12-19 18:42:26 +0000 ===
+[8040] - Gracefully shutting down workers...
+[8040] === puma shutdown: 2016-12-20 03:04:32 +0000 ===
+[8040] - Goodbye!
+=== puma startup: 2016-12-20 03:04:44 +0000 ===
+[11488] * Starting control server on unix:///tmp/puma-status-1482203084010-11488
+[11488] - Worker 0 (pid: 11494) booted, phase: 0
+[11488] - Gracefully shutting down workers...
+[11488] === puma shutdown: 2016-12-20 03:11:06 +0000 ===
+[11488] - Goodbye!
+=== puma startup: 2016-12-20 03:11:07 +0000 ===
+[12065] * Starting control server on unix:///tmp/puma-status-1482203467510-12065
+[12065] - Worker 0 (pid: 12071) booted, phase: 0
+[12065] - Gracefully shutting down workers...
+[12065] === puma shutdown: 2016-12-20 03:36:43 +0000 ===
+[12065] - Goodbye!
+=== puma startup: 2016-12-20 03:36:46 +0000 ===
+[12586] * Starting control server on unix:///tmp/puma-status-1482205006155-12586
+[12586] - Worker 0 (pid: 12592) booted, phase: 0
+[12586] - Gracefully shutting down workers...
+[12586] === puma shutdown: 2016-12-20 03:50:31 +0000 ===
+[12586] - Goodbye!
+=== puma startup: 2016-12-20 03:50:32 +0000 ===
+[12900] * Starting control server on unix:///tmp/puma-status-1482205832760-12900
+[12900] - Worker 0 (pid: 12906) booted, phase: 0
+[12900] - Gracefully shutting down workers...
+[12900] === puma shutdown: 2016-12-20 03:54:58 +0000 ===
+[12900] - Goodbye!
+=== puma startup: 2016-12-20 03:54:59 +0000 ===
+[13108] * Starting control server on unix:///tmp/puma-status-1482206099295-13108
+[13108] - Worker 0 (pid: 13114) booted, phase: 0

@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>How To Set Up Devise AJAX Authentication With Rails 4.0</title>
+    <meta name="description" content="" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css?v=508c6b70cd" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/prism.css?v=508c6b70cd" />
+
+    <link rel="canonical" href="http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/amp/" />
+    
+    <meta property="og:site_name" content="AndrewRay.me" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How To Set Up Devise AJAX Authentication With Rails 4.0" />
+    <meta property="og:description" content="For whatever reason, there are several blog posts on how to accomplish this, and they all get it completely wrong. If you&#x27;ve found this page, I sincerely hope you haven&#x27;t had to experience those. Learn from my pain. Devise can almost do this out of the box. We just have" />
+    <meta property="og:url" content="http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/" />
+    <meta property="article:published_time" content="2014-12-08T04:57:39.000Z" />
+    <meta property="article:modified_time" content="2016-10-06T03:20:49.000Z" />
+    <meta property="article:tag" content="tech" />
+    <meta property="article:tag" content="ruby" />
+    <meta property="article:tag" content="rails" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="How To Set Up Devise AJAX Authentication With Rails 4.0" />
+    <meta name="twitter:description" content="For whatever reason, there are several blog posts on how to accomplish this, and they all get it completely wrong. If you&#x27;ve found this page, I sincerely hope you haven&#x27;t had to experience those. Learn from my pain. Devise can almost do this out of the box. We just have" />
+    <meta name="twitter:url" content="http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Andy Ray" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="tech, ruby, rails" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "AndrewRay.me",
+        "logo": "http://blog.andrewray.me/content/images/2014/Jul/profile_180.jpg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Andy Ray",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/b3a21f6147bcc6bd9d997d5cc5b5f87c?d=404",
+            "width": 80,
+            "height": 80
+        },
+        "url": "http://blog.andrewray.me/author/andy-ray/",
+        "sameAs": []
+    },
+    "headline": "How To Set Up Devise AJAX Authentication With Rails 4.0",
+    "url": "http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/",
+    "datePublished": "2014-12-08T04:57:39.000Z",
+    "dateModified": "2016-10-06T03:20:49.000Z",
+    "keywords": "tech, ruby, rails",
+    "description": "For whatever reason, there are several blog posts on how to accomplish this, and they all get it completely wrong. If you&#x27;ve found this page, I sincerely hope you haven&#x27;t had to experience those. Learn from my pain. Devise can almost do this out of the box. We just have",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://blog.andrewray.me"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.11" />
+    <link rel="alternate" type="application/rss+xml" title="AndrewRay.me" href="http://blog.andrewray.me/rss/" />
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-12379271-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body class="post-template tag-tech tag-ruby tag-rails">
+
+    <header class="site-head" >
+    <div class="site-head-content inner">
+        <div class="title-wrap">
+            <a href="/">
+                <h1 class="blog-title">Andrew <span class="ray-icon">Ray</span>'s Blog</h1>
+            </a>
+            <a href="https://twitter.com/andrewray" target="_blank" class="my-face">
+                <span class="face-icon"></span>
+                <span class="icon-twitter twitter-nav" target="_blank">@andrewray</span>
+            </a>
+        </div>
+    </div>
+    <div class="header-tabs">
+        <div class="inner tab-align">
+            <div class="tab rest">
+                <a href="http://andrewray.me">portfolio</a>
+            </div>
+            <div class="tab active">
+                <a href="http://blog.andrewray.me">blog</a>
+            </div>
+        </div>
+    </div>
+    <div class="header-tabs-highlight"></div>
+    <div class="header-tabs-base"></div>
+</header>
+<div class="navigation">
+    <div class="inner">
+        <a href="/" class="rest">all</a>
+        <a href="/tag/tech" class="highlighted">tech</a>
+        <a href="/tag/nutrition" class="rest">nutrition</a>
+        <a href="/tag/activism" class="rest">activism</a>
+    </div>
+</div>
+
+<main class="content" role="main">
+
+    <article class="post tag-tech tag-ruby tag-rails">
+
+
+
+            <h1 class="post-title">How To Set Up Devise AJAX Authentication With Rails 4.0</h1>
+
+            <section class="post-content">
+                <p>For whatever reason, there <a href="http://www.doidea.se/techblog/rails-application-with-devise-using-ajax">are</a> <a href="http://casperfabricius.com/site/2010/09/30/ajax-sign-in-and-sign-up-with-devise/">several</a> <a href="http://natashatherobot.com/devise-sign-up-ajax-rails/">blog</a> <a href="https://hackhands.com/sign-users-ajax-using-devise-rails/">posts</a> on how to accomplish this, and they all get it <strong>completely</strong> wrong. If you've found this page, I sincerely hope you haven't had to experience those. Learn from my pain.</p>
+
+<p>Devise can almost <strong>do this out of the box</strong>. We just have to make some minor modifications. This post is written for people who aren't famaliar with Rails' stack of magic. </p>
+
+<p>We'll make all user actions, such as <code>/users/sign_out</code> and <code>/users/sign_in</code> able to receive JSON, and respond with JSON. For example, after you sign in, the route will respond with the user in JSON. The original static pages such as <code>/users/sign_up</code> <strong>will still work</strong>.</p>
+
+<h2 id="createregistrationandsessioncontrollers">Create Registration and Session Controllers</h2>
+
+<p>For <strong>sign up</strong>, we need to overload Devise's <code>RegistrationsController</code> and tell it to accept JSON. For this and the rest of this tutorial, the file names must be exact, because Ruby magic uses file names as part of how classes are found.</p>
+
+<p>Create the following file: <code>(app_root)/controllers/registrations_controller.rb</code> with the contents:</p>
+
+<pre><code>class RegistrationsController &lt; Devise::RegistrationsController  
+    respond_to :json
+end  
+</code></pre>
+
+<p>That's it. Seriously. If you want to stop static pages from <code>/users/sign_in</code> from loading, add the following line above <code>respond_to</code></p>
+
+<pre><code>clear_respond_to  
+</code></pre>
+
+<hr />
+
+<p>For <strong>log in</strong> and <strong>log out</strong> we need to overload Devise's <code>SessionsController</code>. Create <code>(app_root)/controllers/controllers/sessions_controller.rb</code> with the contents:</p>
+
+<pre><code>class SessionsController &lt; Devise::SessionsController  
+    respond_to :json
+end  
+</code></pre>
+
+<h2 id="trickdeviseintousingourcontrollers">Trick Devise Into Using Our Controllers</h2>
+
+<p>This is simple, just add the following to your <code>routes.rb</code>. Replace <code>:users</code> with the name of your model.</p>
+
+<pre><code>devise_for :users, :controllers =&gt; {sessions: 'sessions', registrations: 'registrations'}  
+</code></pre>
+
+<h2 id="maketheajaxrequests">Make the AJAX Requests</h2>
+
+<p>This section is intentionally sparse, because AJAX methods are fairly common and straightforward. Just make sure to <a href="http://stackoverflow.com/questions/7203304/warning-cant-verify-csrf-token-authenticity-rails">include the CSRF token with the requests</a>!</p>
+
+<p>For convenience I have included the JSON data structure expected by each user action, and the expected response from Devise.</p>
+
+<p><strong>Sign up</strong></p>
+
+<pre><code>URL: /users  
+Method: POST  
+Payload: {  
+    user: {
+        email: email,
+        password: password,
+        password_confirmation: password
+    }
+}
+Response:  
+    User JSON { "id":1,"email": ... }
+    or
+    { errors: { fieldName: ['Error'] }
+</code></pre>
+
+<p><strong>Log in</strong></p>
+
+<pre><code>URL: /users/sign_in  
+Method: POST  
+Payload: {  
+    user: {
+        email: email,
+        password: password,
+        remember_me: 1
+    }
+}
+Response:  
+    User JSON { "id":1,"email": ... }
+    or
+    { errors: { fieldName: ['Error'] }
+</code></pre>
+
+<p><strong>Log out</strong></p>
+
+<pre><code>URL: /users/sign_out  
+Method: DELETE  
+Payload: Nothing (do not send data)  
+Response: Nothing  
+</code></pre>
+
+<h2 id="optionalremovethesigninsignoutalerts">Optional: Remove the Sign In / Sign Out Alerts</h2>
+
+<p>If a user signs in with AJAX and later refreshes the page, Devise still will put a banner at the top of the page through some magic injection. Let's stop that.</p>
+
+<p>Edit <code>config/locales/devise.en.yml</code> and blank out the messages.</p>
+
+<pre><code>    sessions:
+      signed_in: ""
+      signed_out: ""
+      already_signed_out: ""
+</code></pre>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>First, make sure your files are named correctly.</p>
+
+<p>In your project root on the command line run <code>rake routes</code>. You should see something like this:</p>
+
+<pre><code>new_user_session GET    /users/sign_in(.:format)        sessions#new  
+</code></pre>
+
+<p>and not this:</p>
+
+<pre><code>new_user_session GET    /users/sign_in(.:format)        devise/sessions#new  
+</code></pre>
+
+<p>If you see the route controllers you expect to be AJAX prefixed with <code>devise/</code> then it is not correctly reading your routes.</p>
+
+<p>If you have <code>spring</code> listed in your <code>Gemfile</code>, type <code>spring stop</code> at the command line. It may be caching your application which could prevent any of this from working. Run <code>rake routes</code> again and ensure the paths are correct.</p>
+
+<p>Other blogs tell you to modify <code>config/initializers/devise.rb</code> and add this line:</p>
+
+<pre><code>config.navigational_formats = ["*/*", :html, :json]  
+</code></pre>
+
+<p><strong>Don't do this</strong>. You don't want your application respond to JSON requests with things like a 302 redirection. You want them to respond with JSON.</p>
+
+<h2 id="thatsit">That's It!</h2>
+
+<p>If this post helped you navigate Rails's collection of magic, consider following me <a href="https://twitter.com/andrewray">on Twitter</a> or <a href="https://www.coinbase.com/andrewray">buying me a coffee</a> :).</p>
+            </section>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- automatic size -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1460131002512982"
+     data-ad-slot="7428902199"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+            <footer class="post-footer">
+
+                <span class="post-meta"><time datetime="2014-12-08">08 Dec 2014</time> on <a href="/tag/tech/">tech</a> | <a href="/tag/ruby/">ruby</a> | <a href="/tag/rails/">rails</a></span>
+
+                <section class="author">
+                    <h4>Andy Ray</h4>
+                    <p></p>
+                    <ul class="author-meta clearfix">
+                        
+                        
+                    </ul>
+                </section>
+
+                <section class="share">
+                    <h4>Share this post</h4>
+                    <a class="icon-twitter" href="https://twitter.com/share?text=How%20To%20Set%20Up%20Devise%20AJAX%20Authentication%20With%20Rails%204.0%20by%20@andrewray&amp;url=http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/"
+                        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                        <span class="hidden">Twitter</span>
+                    </a>
+                    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/"
+                        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                        <span class="hidden">Facebook</span>
+                    </a>
+                    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://blog.andrewray.me/how-to-set-up-devise-ajax-authentication-with-rails-4-0/"
+                       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                        <span class="hidden">Google+</span>
+                    </a>
+                </section>
+
+            </footer>
+
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = 'andrewraysblog'; // required: replace example with your forum shortname
+                var disqus_identifier = ''; // make sure to use the post.id as an identifier, otherwise disqus will use the pages url per default, which might be problematic...
+            
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <a class="subscribe icon-feed" href="http://blog.andrewray.me/rss/"><span class="tooltip">Subscribe!</span></a>
+        <div class="overflowed">
+            <div class="inner tentacle-thing clearfix">
+                <div class="info">
+                    <div class="foot-head">
+                        About
+                    </div>
+                    I'm a human from San Francisco.
+                    <br /><br />Follow me on
+                    <a href="https://twitter.com/andrewray" target="_blank">Twitter</a> or
+                    <a href="https://github.com/AndrewRayCode" target="_blank">GitHub</a>, or
+                    check out my <a href="http://andrewray.me" target="_blank">portfolio</a>.
+                </div>
+            </div>
+            <div class="postscript">
+                <div class="inner">
+                    <div class="ray"></div>
+                    <div class="copy">
+                        &copy; Andrew Ray 2016
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        Blog by <a href="https://ghost.org" target="_blank">Ghost</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js?v=508c6b70cd"></script>
+    <script type="text/javascript" src="/assets/js/index.js?v=508c6b70cd"></script>
+    <script type="text/javascript" src="/assets/js/prism.js?v=508c6b70cd"></script>
+
+</body>
+</html>
+

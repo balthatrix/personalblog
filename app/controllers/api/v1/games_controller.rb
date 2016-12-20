@@ -1,4 +1,5 @@
 class Api::V1::GamesController < Api::V1::BaseController
+  before_action :doorkeeper_authorize!, only: [:create, :destroy, :update]
   def index 
     respond_with Game.all
   end

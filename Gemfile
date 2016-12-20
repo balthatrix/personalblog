@@ -8,9 +8,14 @@ gem 'sqlite3'
 
 gem 'pg'
 
+gem 'devise' 
+
 gem 'responders'
 
 gem 'react-rails'
+
+gem 'doorkeeper'
+
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
