@@ -16,6 +16,9 @@ var AllGames = React.createClass({
     $.ajax({
       url: `/api/v1/games/${game.id}`,
       type: 'PUT', 
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
       data: { game: game},
       success: () => {
         console.log('you did it!!!');
@@ -28,6 +31,9 @@ var AllGames = React.createClass({
     $.ajax({
       url: `/api/v1/games/${id}`, 
       type: 'DELETE', 
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
       success: (response) => { 
         this.props.onDeleteSuccess(id);
       }.bind(this)

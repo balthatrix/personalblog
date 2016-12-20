@@ -212,3 +212,50 @@ HSDFS: true
 === puma startup: 2016-12-20 03:54:59 +0000 ===
 [13108] * Starting control server on unix:///tmp/puma-status-1482206099295-13108
 [13108] - Worker 0 (pid: 13114) booted, phase: 0
+[13108] - Gracefully shutting down workers...
+[13108] === puma shutdown: 2016-12-20 04:09:47 +0000 ===
+[13108] - Goodbye!
+=== puma startup: 2016-12-20 04:09:48 +0000 ===
+[13226] * Starting control server on unix:///tmp/puma-status-1482206988476-13226
+[13226] - Worker 0 (pid: 13232) booted, phase: 0
+[13226] - Gracefully shutting down workers...
+[13226] === puma shutdown: 2016-12-20 04:17:36 +0000 ===
+[13226] - Goodbye!
+=== puma startup: 2016-12-20 04:17:38 +0000 ===
+[13276] * Starting control server on unix:///tmp/puma-status-1482207458007-13276
+[13276] - Worker 0 (pid: 13282) booted, phase: 0
+[13276] - Gracefully shutting down workers...
+[13276] === puma shutdown: 2016-12-20 04:28:54 +0000 ===
+[13276] - Goodbye!
+=== puma startup: 2016-12-20 04:28:55 +0000 ===
+[13376] * Starting control server on unix:///tmp/puma-status-1482208135391-13376
+[13376] - Worker 0 (pid: 13382) booted, phase: 0
+[13376] - Gracefully shutting down workers...
+[13376] === puma shutdown: 2016-12-20 04:30:10 +0000 ===
+[13376] - Goodbye!
+=== puma startup: 2016-12-20 04:30:11 +0000 ===
+[13411] * Starting control server on unix:///tmp/puma-status-1482208211172-13411
+[13411] - Worker 0 (pid: 13417) booted, phase: 0
+[13411] - Gracefully shutting down workers...
+[13411] === puma shutdown: 2016-12-20 04:32:01 +0000 ===
+[13411] - Goodbye!
+=== puma startup: 2016-12-20 04:32:02 +0000 ===
+[13474] * Starting control server on unix:///tmp/puma-status-1482208322052-13474
+[13474] - Worker 0 (pid: 13480) booted, phase: 0
+HERE: #<ActionDispatch::Request::Session:0x007f3742de18b0>
+HERE: #<ActionDispatch::Request::Session:0x007f3741215028>
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"2ed4bfffea9fa60020affb2e3a0aec4d","warden.user.user.key":[[1],"$2a$11$9qUrHvIpgpjO4SWttZbHbe"],"_csrf_token":"qEzFS//x+dmgDTVaKKPyfzioSBnOCsAHad2wV34y2AQ=","flash":{"discard":[],"flashes":{"alert":"You are already signed in."}}}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+user: null
+user: null
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+user: {"id":1,"email":"jeronmparaiso6a@gmail.com","created_at":"2016-12-20T03:35:29.583Z","updated_at":"2016-12-20T04:38:36.055Z"}
