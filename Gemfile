@@ -16,6 +16,7 @@ gem 'react-rails'
 
 gem 'doorkeeper'
 
+gem 'bower-rails', "~> 0.11.0"
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'

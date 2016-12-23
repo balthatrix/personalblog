@@ -16,4 +16,6 @@
 //= require react
 //= require react_ujs
 //= require components
+//= require require
+//= require react-console-component/main
 //= require_tree .

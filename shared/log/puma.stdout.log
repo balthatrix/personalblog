@@ -259,3 +259,34 @@ user: null
 user: null
 HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
 user: {"id":1,"email":"jeronmparaiso6a@gmail.com","created_at":"2016-12-20T03:35:29.583Z","updated_at":"2016-12-20T04:38:36.055Z"}
+=== puma startup: 2016-12-20 08:08:32 +0000 ===
+=== puma startup: 2016-12-20 08:08:32 +0000 ===
+=== puma startup: 2016-12-20 08:08:32 +0000 ===
+HERE: {"session_id":"27d0d0e139e351d080ed2d099d12b532","_csrf_token":"Bng6aE+DkxMFs1QhHvVwBHtkcC52ei6qdoe8VxEwag8="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+[13474] - Gracefully shutting down workers...
+[13474] === puma shutdown: 2016-12-21 02:21:53 +0000 ===
+[13474] - Goodbye!
+=== puma startup: 2016-12-21 02:22:04 +0000 ===
+[15611] * Starting control server on unix:///tmp/puma-status-1482286924227-15611
+[15611] - Worker 0 (pid: 15617) booted, phase: 0
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+=== puma startup: 2016-12-21 08:33:49 +0000 ===
+=== puma startup: 2016-12-21 08:33:49 +0000 ===
+=== puma startup: 2016-12-21 08:33:49 +0000 ===
+HERE: {"session_id":"eceb55b46e031a756b32e30ee920ae3d","_csrf_token":"5E+HbzCjWtJ1UkBChHrOaoD9JarSjyQAFKk9B7bzsUM="}
+[29846] ! Detected parent died, dying
+=== puma startup: 2016-12-23 20:47:59 +0000 ===
+[29872] * Starting control server on unix:///tmp/puma-status-1482526079806-29872
+[29872] - Worker 0 (pid: 29878) booted, phase: 0
+[29872] - Gracefully shutting down workers...
+[29872] === puma shutdown: 2016-12-23 22:06:07 +0000 ===
+[29872] - Goodbye!
+=== puma startup: 2016-12-23 22:06:08 +0000 ===
+[31639] * Starting control server on unix:///tmp/puma-status-1482530768591-31639
+[31639] - Worker 0 (pid: 31645) booted, phase: 0
