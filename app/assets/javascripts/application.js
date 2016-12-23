@@ -15,7 +15,6 @@
 //= require turbolinks
 //= require react
 //= require react_ujs
+//= require react-console-build/dist/react-console
 //= require components
-//= require require
-//= require react-console-component/main
 //= require_tree .
