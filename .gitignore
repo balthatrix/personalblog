@@ -2,6 +2,7 @@
 capybara-*.html
 .rspec
 /log
+*.log
 /bower_components
 /node_modules
 /tmp
