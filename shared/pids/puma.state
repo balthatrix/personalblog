@@ -1,4 +1,4 @@
 ---
-pid: 31639
-control_url: unix:///tmp/puma-status-1482530768591-31639
-control_auth_token: 89d3a970dee863b623996e7c9436ca1
+pid: 8821
+control_url: unix:///tmp/puma-status-1482859120508-8821
+control_auth_token: cb4afcbbe4bc7048667e7745e32d26

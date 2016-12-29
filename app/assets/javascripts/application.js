@@ -16,5 +16,6 @@
 //= require react
 //= require react_ujs
 //= require react-console-build/dist/react-console
+//= require my_commands 
 //= require components
 //= require_tree .

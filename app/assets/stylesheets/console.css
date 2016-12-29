@@ -9,6 +9,21 @@ div.react-console-container {
   overflow: auto;
   white-space: pre; }
 
+div.react-console-message.react-console-message-input-prompt {
+  color: lightgrey;
+}
+
+div.react-console-message.react-console-message-error {
+  color: #ff0000;
+}
+
+div.react-console-message.react-console-message-default {
+  color: #00ff00;
+}
+
+
+
+
 div.react-console-prompt-box {
   color: #00ff00; }
 
