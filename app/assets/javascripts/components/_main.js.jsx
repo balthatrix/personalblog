@@ -39,9 +39,16 @@ var Main = React.createClass({
       .then(()=>{
         this.setState({ignoringNextNewline: true});
         this.refs.console.acceptLine();
+        console.log("HI");
         this.setState({promptLabel: "$ "});
       });
 
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.promptLabel != prevState.promptLabel) {
+      this.refs.console.return();
+    }
   },
 
   render() {
@@ -62,6 +69,32 @@ var Main = React.createClass({
     )
   },
 
+
+  consoleHandler(text) {
+    if(text.replace(/\s/, "") == "") { 
+      //do nothing
+    } else if (this.state.ignoringNextNewline){
+      this.setState({ignoringNextNewline: false});
+    } else if(this.state.takingPassword) {
+      this.state.inputResolve(this.refs.hidden_password.value);
+      this.stopTakingInput();
+      this.refs.hidden_password.value = "";
+      this.refs.console.focus();
+    } else if(this.state.takingInput){
+      this.state.inputResolve(text);
+      this.stopTakingInput();
+    } else {
+      try {
+        this.commandRouter.run(text);
+      } catch (err) {
+        console.log("err: ",err);
+        this.refs.console.logX("error", err);
+      }
+    }
+
+    this.refs.console.return();
+    return true;
+  },
 
   loginRoutine() {
     this.takeInput("Email: ")
@@ -190,28 +223,16 @@ var Main = React.createClass({
 
   focused() {
     if(this.state.takingPassword) {
-      this.state.inputResolve(this.refs.hidden_password.value);
-      this.stopTakingInput();
-      this.refs.hidden_password.value = "";
-      this.refs.console.focus();
-    } else if(this.state.takingInput){
-      this.state.inputResolve(text);
-      this.stopTakingInput();
+      this.refs.hidden_password.focus();
+    } else if (this.state.inputToNil) {
+      this.refs.nil.focus();
     } else {
-      try {
-        this.commandRouter.run(text);
-      } catch (err) {
-        console.log("err: ",err);
-        this.refs.console.logX("error", err);
-      }
+      this.refs.console.focus();
     }
-    
-    //this.refs.console.log(text);
-    this.refs.console.return();
-    return true;
   },
 
-  passwordSubmitted(e) {
+
+    passwordSubmitted(e) {
     console.log("here!!!")
     e.preventDefault();
     if(this.state.takingPassword) {
