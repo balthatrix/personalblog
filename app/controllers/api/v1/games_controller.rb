@@ -1,11 +1,9 @@
 class Api::V1::GamesController < Api::V1::BaseController
   before_action :doorkeeper_authorize!, only: [:create, :destroy, :update]
   def index 
-    puts "HERE: #{session.to_json}"
     respond_with Game.all
   end
   def create
-    puts "user: #{current_user.to_json}"
     respond_with :api, :v1, Game.create(game_params)
   end
   def destroy
