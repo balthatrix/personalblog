@@ -10,7 +10,6 @@ var Main = React.createClass({
       takingInput: false,
       takingPassword: false,
       promptLabel: "",
-      credentials: null,
       inputToNil: false,
       ignoringNextNewline: false,
     }
@@ -21,27 +20,29 @@ var Main = React.createClass({
     var login = new Command("login", this.loginRoutine);
     var stop = new Command("stopallinput", this.disallowConsoleInput);
     var newgame = new Command("newgame", this.newGameRoutine);
+    var list = new Command("list", this.listRoutine, [new CommandParam("resourceName")]);
     
     this.commandRouter.commands.push(login);
     this.commandRouter.commands.push(stop);
     this.commandRouter.commands.push(newgame);
+    this.commandRouter.commands.push(list);
 
     document.addEventListener("focus", this.focused);
     document.addEventListener("keydown", this.focused);
     document.addEventListener("click", this.focused);
     this.refs.password_form.addEventListener("submit",this.passwordSubmitted);
 
-    this.setInitialLoginState();
-
+  /*
     this.freezeAppend("Hi, I'm Jeron.", 100)
       .then(()=>this.freezeFor(1000))
       .then(()=>this.freezeAppend("\nI like to code games.", 100))
       .then(()=>{
-        this.setState({ignoringNextNewline: true});
-        this.refs.console.acceptLine();
-        console.log("HI");
-        this.setState({promptLabel: "$ "});
       });
+*/
+
+    //    this.setState({ignoringNextNewline: true});
+    //    this.refs.console.acceptLine();
+        this.setState({promptLabel: "$ "});
 
   },
 
@@ -87,8 +88,8 @@ var Main = React.createClass({
       try {
         this.commandRouter.run(text);
       } catch (err) {
+        this.handleCommandError(err);
         console.log("err: ",err);
-        this.refs.console.logX("error", err);
       }
     }
 
@@ -159,38 +160,72 @@ var Main = React.createClass({
   },
 
   newGameRoutine() {
-    if(this.state.credentials) { 
-      $.ajax({
+      var creds = this.loginCredentials();
+      this.tryCredAjax({
         url: `/api/v1/games`,
         type: 'POST',
-        data: {game:{title: "hi", description: "some game"}, access_token: this.state.credentials.access_token},
+        data: {game:{title: "hi", description: "some game"}},
+      })
+      .then((r)=>this.refs.console.log("Successfully created new game"),
+          (r)=>console.log("rej: ", r))
+  },
 
-        success: (response) => {
-          console.log(response);
+  handleCommandError(commandRunError) {
+    var issues = commandRunError.issues;
+    var msg = commandRunError.message;
+    var command = commandRunError.command;
+    var issueMessage = "";
+    for(var issueKey in issues) {
+      issueMessage += issueKey + ": " + issues[issueKey] + ". ";
+    }
+
+    console.log("comamnd: ", command);
+    this.refs.console.logX("error", msg + ". " +  issueMessage);
+    this.refs.console.log("Proper usage: " + command.properUsageInstructions()); 
+  },
+
+  listRoutine(args) {
+
+    console.log("listing: ", args);
+
+
+  },
+
+  tryCredAjax(opts) {
+    var url = opts.url;
+    var type = opts.type || "GET";
+    var data = opts.data || {};
+
+    var defSucc = (r)=>console.log("Success response: ", r);
+    var success = opts.success || defSucc;
+    
+    return new Promise((resolve, reject)=>{
+      if(this.isLoggedIn()){
+        try {
+          data.access_token = this.loginCredentials().access_token;
+        } catch (e){
+          console.log("credentials not here");
         }
-      });
-    } else {
-
-      this.refs.console.log("You must login to do that");
-    }
+        $.ajax({
+          url: url,
+          type: type,
+          data: data,
+          success: resolve,
+          error: (res) => {
+            if(res.status == 401) { 
+              this.refs.console.logX("error", "Error, credentials expired.  You need to login again.  Try 'login'");
+            }
+            reject(res);
+          }
+        });
+      } else {
+        this.refs.console.log("You must login to do this");
+        reject("Login required");
+      }
+    })
   },
-  
-  setInitialLoginState() {
-    var creds = this.getPersistentLoginCredentials();
-    if(creds) {
-      this.setState({credentials: creds});
 
-      
-      console.log("creds initially: ", creds);
-    } else {
-      
-      console.log("no credentials detected: ");
-    }
-  },
-
- 
   onLoginSuccess(response) {
-    this.setState({credentials: {access_token: response.access_token, refresh_token: response.refresh_token}}) 
     this.setPersistentLoginCredentials(response);
     this.refs.console.log("Successfully logged in");
   },
@@ -199,23 +234,30 @@ var Main = React.createClass({
     this.refs.console.logX("error", "Login failure");
   },
 
-  stateHasCredentials() {
-    return (this.state.credentials != null)
+
+  isLoggedIn() {
+    return (this.loginCredentials() != undefined);
   },
 
   setPersistentLoginCredentials(response){
     var access_token = response.access_token;
     var refresh_token = response.refresh_token;
-    localStorage.setItem("credentials", JSON.stringify({access_token: access_token, refresh_token: refresh_token}));
+    var expires_in = response.expires_in;
+    localStorage.setItem("credentials", JSON.stringify({
+      expires_in: expires_in,
+      access_token: access_token, 
+      refresh_token: refresh_token
+    }));
   },
 
-  getPersistentLoginCredentials(response){
+  loginCredentials(){
     var creds = localStorage.getItem("credentials");
     if(creds) {
       try {
         creds = JSON.parse(creds);
       } catch (err) {
-        return null
+        console.log("error parsing the credentials: ", err);
+        return undefined 
       }
     }
     return creds;
@@ -232,8 +274,7 @@ var Main = React.createClass({
   },
 
 
-    passwordSubmitted(e) {
-    console.log("here!!!")
+  passwordSubmitted(e) {
     e.preventDefault();
     if(this.state.takingPassword) {
       this.refs.console.acceptLine();
@@ -253,12 +294,12 @@ var Main = React.createClass({
 
 
   stopTakingInput() {
-      this.setState({
-        takingInput: false, 
-        takingPassword: false, 
-        inputResolve: null,
-        promptLabel: "$ "
-      });
+    this.setState({
+      takingInput: false, 
+      takingPassword: false, 
+      inputResolve: null,
+      promptLabel: "$ "
+    });
   },
 
   takeInput(strPrompt) {
