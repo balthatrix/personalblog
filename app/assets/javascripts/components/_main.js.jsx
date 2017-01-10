@@ -160,45 +160,72 @@ var Main = React.createClass({
   },
 
   newGameRoutine() {
-      var creds = this.loginCredentials();
-      this.tryCredAjax({
-        url: `/api/v1/games`,
-        type: 'POST',
-        data: {game:{title: "hi", description: "some game"}},
-      })
-      .then((r)=>this.refs.console.log("Successfully created new game"),
-          (r)=>console.log("rej: ", r))
+    var creds = this.loginCredentials();
+    this.tryCredAjax({
+      url: `/api/v1/games`,
+      type: 'POST',
+      data: {game:{title: "hi", description: "some game"}},
+    })
+    .then((r)=>this.refs.console.log("Successfully created new game"),
+        (r)=>console.log("rej: ", r))
   },
 
   handleCommandError(commandRunError) {
-    var issues = commandRunError.issues;
-    var msg = commandRunError.message;
-    var command = commandRunError.command;
-    var issueMessage = "";
-    for(var issueKey in issues) {
-      issueMessage += issueKey + ": " + issues[issueKey] + ". ";
-    }
+    console.log("err: ", commandRunError)
+      try {
+        var issues = commandRunError.issues;
+        var msg = commandRunError.message;
+        var command = commandRunError.command;
+        var issueMessage = "";
+        for(var issueKey in issues) {
+          issueMessage += issueKey + ": " + issues[issueKey] + ". ";
+        }
 
-    console.log("comamnd: ", command);
-    this.refs.console.logX("error", msg + ". " +  issueMessage);
-    this.refs.console.log("Proper usage: " + command.properUsageInstructions()); 
+        console.log("comamnd: ", command);
+        var usage  = command.properUsageInstructions();
+        this.refs.console.logX("error", msg + ". " +  issueMessage);
+        this.refs.console.log("Proper usage: " + usage); 
+    } catch (error) {
+      this.refs.console.logX("error", commandRunError);
+    }
   },
 
   listRoutine(args) {
 
-    console.log("listing: ", args);
+    var resourceName = args.resourceName;
+    this.tryCredAjax({
+      url: "/api/v1/"+resourceName + ".json",
+    }).then((r) => {
+      if(r.length > 0) {
+        for(var res of r) {
+          this.refs.console.logX("title", this.capitalize(res.title));
+          for(var key in res) {
+            if(['id', 'title', 'created_at', 'updated_at'].indexOf(key) > -1) {
+              continue;
+            }
 
+            val = res[key];
+            this.refs.console.log(key + ": ");
+            this.refs.console.log(val);
+          }
+          this.refs.console.log(" ");
+        }
+      }
+    });
+  },
 
+  capitalize(str) {
+    var ret = str.split(" ");
+    return ret.map((word) => {
+      var w = word;
+      return w[0].toUpperCase() + w.slice(1, w.length);
+    }).join(" ");
   },
 
   tryCredAjax(opts) {
     var url = opts.url;
     var type = opts.type || "GET";
     var data = opts.data || {};
-
-    var defSucc = (r)=>console.log("Success response: ", r);
-    var success = opts.success || defSucc;
-    
     return new Promise((resolve, reject)=>{
       if(this.isLoggedIn()){
         try {
