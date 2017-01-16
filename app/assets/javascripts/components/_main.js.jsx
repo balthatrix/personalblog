@@ -5,27 +5,34 @@ var Main = React.createClass({
 
   commandRouter: new CommandRouter(),
  
+  //focus modalities: inputToNil || password ||  
   getInitialState() {
     return {
+      windowOpen: true,
+      closableWindowContents: null,
       takingInput: false,
       takingPassword: false,
       promptLabel: "",
       inputToNil: false,
-      ignoringNextNewline: false,
+      ignoringNextNewline: false
     }
   },
 
   componentDidMount() {
     window["mainApp"] = this;
     var login = new Command("login", this.loginRoutine);
-    var stop = new Command("stopallinput", this.disallowConsoleInput);
+    var stop = new Command("stop", this.disallowConsoleInput);
     var newgame = new Command("newgame", this.newGameRoutine);
     var list = new Command("list", this.listRoutine, [new CommandParam("resourceName")]);
+    var play = new Command("play", this.playRoutine, [new CommandParam("slug")]);
     
+
     this.commandRouter.commands.push(login);
     this.commandRouter.commands.push(stop);
     this.commandRouter.commands.push(newgame);
     this.commandRouter.commands.push(list);
+    this.commandRouter.commands.push(play);
+
 
     document.addEventListener("focus", this.focused);
     document.addEventListener("keydown", this.focused);
@@ -53,6 +60,11 @@ var Main = React.createClass({
   },
 
   render() {
+    var closableClass = "closable-window";
+    if(this.state.windowOpen) {
+      closableClass += " window-open";
+    }
+
     return (
         <div style={this.mainStyle()}>
         <div style={{width: 0, height: 0, overflow: "hidden"}}>
@@ -61,6 +73,9 @@ var Main = React.createClass({
           </form>
           <input ref="nil" />
         </div> 
+        <ClosableWindow onHandleClose={this.closeWindow} className={closableClass}>
+	  {this.state.closableWindowContents}
+	</ClosableWindow>
         <Console  ref="console"
           handler={this.consoleHandler}
           promptLabel={this.state.promptLabel}
@@ -70,6 +85,17 @@ var Main = React.createClass({
     )
   },
 
+
+  resourceTypeOutput(resourceType, resource)  {
+    switch(resourceType) {
+      case "games":
+        this.refs.console.logX("title", this.capitalize(resource.title));
+        this.refs.console.log(resource.description);
+        this.refs.console.log("enter 'play " + resource.id + "' or 'play "+ resource.title.toLowerCase().replace(/\s/g, "-") +"' to try it out.");
+        this.refs.console.logX("title", "-----");
+        break;
+    }
+  },
 
   consoleHandler(text) {
     if(text.replace(/\s/, "") == "") { 
@@ -164,7 +190,7 @@ var Main = React.createClass({
     this.tryCredAjax({
       url: `/api/v1/games`,
       type: 'POST',
-      data: {game:{title: "hi", description: "some game"}},
+      data: {game:{title: "Asteroid Hunter", description: "A game where you kill asterds"}},
     })
     .then((r)=>this.refs.console.log("Successfully created new game"),
         (r)=>console.log("rej: ", r))
@@ -191,28 +217,30 @@ var Main = React.createClass({
   },
 
   listRoutine(args) {
-
     var resourceName = args.resourceName;
     this.tryCredAjax({
       url: "/api/v1/"+resourceName + ".json",
     }).then((r) => {
       if(r.length > 0) {
         for(var res of r) {
-          this.refs.console.logX("title", this.capitalize(res.title));
-          for(var key in res) {
-            if(['id', 'title', 'created_at', 'updated_at'].indexOf(key) > -1) {
-              continue;
-            }
-
-            val = res[key];
-            this.refs.console.log(key + ": ");
-            this.refs.console.log(val);
-          }
-          this.refs.console.log(" ");
+          this.resourceTypeOutput(resourceName, res);
         }
       }
     });
   },
+
+  playRoutine(args) {
+    var gameSlug = args.slug;
+    this.tryCredAjax({
+      url: "/api/v1/games/"+gameSlug+ ".json",
+    }).then((g) => {
+
+      this.setState({windowOpen: true, closableWindowContents: (<IframedGame game={g} />)});
+     
+    });
+  },
+
+
 
   capitalize(str) {
     var ret = str.split(" ");
@@ -351,6 +379,7 @@ var Main = React.createClass({
     });
   },
 
+  
 
   mainStyle() {
     return {
@@ -361,7 +390,10 @@ var Main = React.createClass({
       width: "100vw",
       height: "100vh",
     };
-  }
+  },
 
+  closeWindow() {
+    this.setState({windowOpen:false, closableWindowContents: null})
+  }
 
 })

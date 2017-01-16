@@ -1,0 +1,37 @@
+.closable-window {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  overflow: hidden;
+  margin: 0px;
+  box-shadow: 0 0 0 0px white;
+  -webkit-transition: width 0.35s, height 0.35s, linear;
+  -moz-transition: width 0.35s, height 0.35s, linear;
+  -o-transition: width 0.35s, height 0.35s, linear;
+  transition: width 0.35s, height 0.35s, linear;
+}
+
+/*exaggerated time*/
+/*
+.closable-window {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  overflow: hidden;
+  margin: 0px;
+  box-shadow: 0 0 0 0px white;
+  -webkit-transition: width 4s, height 4s, linear;
+  -moz-transition: width 4s, height 4s, linear;
+  -o-transition: width 4s, height 4s, linear;
+  transition: width 4s, height 4s, linear;
+}
+*/
+
+
+.closable-window.window-open {
+  margin: 2px;
+  box-shadow: 0 0 0 2px white;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+}
+
