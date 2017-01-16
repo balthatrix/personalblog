@@ -8,13 +8,14 @@ var Main = React.createClass({
   //focus modalities: inputToNil || password ||  
   getInitialState() {
     return {
-      windowOpen: true,
+      windowOpen: false,
       closableWindowContents: null,
+      closableWindowTitle: "",
       takingInput: false,
       takingPassword: false,
       promptLabel: "",
       inputToNil: false,
-      ignoringNextNewline: false
+      ignoringNextNewline: false,
     }
   },
 
@@ -73,7 +74,7 @@ var Main = React.createClass({
           </form>
           <input ref="nil" />
         </div> 
-        <ClosableWindow onHandleClose={this.closeWindow} className={closableClass}>
+        <ClosableWindow title={this.state.closableWindowTitle} onHandleClose={this.closeWindow} className={closableClass}>
 	  {this.state.closableWindowContents}
 	</ClosableWindow>
         <Console  ref="console"
@@ -234,8 +235,11 @@ var Main = React.createClass({
     this.tryCredAjax({
       url: "/api/v1/games/"+gameSlug+ ".json",
     }).then((g) => {
+      this.refs.console.log("Launching " + (g.title) + "...");
 
-      this.setState({windowOpen: true, closableWindowContents: (<IframedGame game={g} />)});
+      setTimeout(()=>{
+      this.setState({windowOpen: true, closableWindowContents: (<IframedGame game={g} />), closableWindowTitle: g.title});
+      },1000)
      
     });
   },
@@ -319,6 +323,9 @@ var Main = React.createClass({
   },
 
   focused() {
+    if(this.state.windowOpen) {
+      return;
+    }
     if(this.state.takingPassword) {
       this.refs.hidden_password.focus();
     } else if (this.state.inputToNil) {
@@ -393,7 +400,7 @@ var Main = React.createClass({
   },
 
   closeWindow() {
-    this.setState({windowOpen:false, closableWindowContents: null})
+    this.setState({windowOpen:false, closableWindowTitle: "", closableWindowContents: null})
   }
 
 })
